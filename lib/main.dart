@@ -1,11 +1,18 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/App.dart';
+import 'package:weather_app/WeatherApiClient.dart';
+import 'package:weather_app/WeatherRepository.dart';
+import 'package:http/http.dart' as http;
 
-void main() => runApp(MyApp());
+import 'bloc/SimpleBLocDelegate.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
-  }
+void main() {
+  BlocSupervisor().delegate = SimpleBlocDelegate();
+  final WeatherRepository weatherRepository = WeatherRepository(
+    weatherApiClient: WeatherApiClient(
+      httpClient: http.Client(),
+    ),
+  );
+  runApp(App(weatherRepository: weatherRepository));
 }
