@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:weather_app/events/WeatherEvent.dart';
+import 'package:weather_app/events/weather/WeatherEvent.dart';
 
 class RefreshWeather extends WeatherEvent {
   final String city;

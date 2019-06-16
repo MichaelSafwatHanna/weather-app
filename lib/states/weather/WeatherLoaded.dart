@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:weather_app/models/Weather.dart';
 
-import 'WeatherState.dart';
+import 'package:weather_app/states/weather/WeatherState.dart';
 
 class WeatherLoaded extends WeatherState {
   final Weather weather;

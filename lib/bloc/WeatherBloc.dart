@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:weather_app/WeatherRepository.dart';
-import 'package:weather_app/events/FetchWeather.dart';
-import 'package:weather_app/events/RefreshWeather.dart';
-import 'package:weather_app/events/WeatherEvent.dart';
+import 'package:weather_app/events/weather/FetchWeather.dart';
+import 'package:weather_app/events/weather/RefreshWeather.dart';
+import 'package:weather_app/events/weather/WeatherEvent.dart';
 import 'package:weather_app/models/Weather.dart';
-import 'package:weather_app/states/WeatherEmpty.dart';
-import 'package:weather_app/states/WeatherError.dart';
-import 'package:weather_app/states/WeatherLoaded.dart';
-import 'package:weather_app/states/WeatherLoading.dart';
-import 'package:weather_app/states/WeatherState.dart';
+import 'package:weather_app/states/weather/WeatherEmpty.dart';
+import 'package:weather_app/states/weather/WeatherError.dart';
+import 'package:weather_app/states/weather/WeatherLoaded.dart';
+import 'package:weather_app/states/weather/WeatherLoading.dart';
+import 'package:weather_app/states/weather/WeatherState.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRepository weatherRepository;
