@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/WeatherRepository.dart';
 import 'package:weather_app/bloc/WeatherBloc.dart';
 import 'package:weather_app/events/FetchWeather.dart';
+import 'package:weather_app/events/RefreshWeather.dart';
 import 'package:weather_app/states/WeatherEmpty.dart';
 import 'package:weather_app/states/WeatherError.dart';
 import 'package:weather_app/states/WeatherLoaded.dart';
@@ -26,11 +29,13 @@ class Weather extends StatefulWidget {
 
 class _WeatherState extends State<Weather> {
   WeatherBloc _weatherBloc;
+  Completer<void> _refreshCompleter;
 
   @override
   void initState() {
     super.initState();
     _weatherBloc = WeatherBloc(weatherRepository: widget.weatherRepository);
+    _refreshCompleter = Completer<void>();
   }
 
   @override
@@ -66,26 +71,35 @@ class _WeatherState extends State<Weather> {
               return Center(child: CircularProgressIndicator());
             } else if (state is WeatherLoaded) {
               final weather = state.weather;
-              return ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 100),
-                    child: Center(
-                      child: Location(location: weather.location),
-                    ),
-                  ),
-                  Center(
-                    child: LastUpdated(dateTime: weather.lastUpdated),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 50.0),
-                    child: Center(
-                      child: CombinedWeatherTemperature(
-                        weather: weather,
+
+              _refreshCompleter?.complete();
+              _refreshCompleter = Completer();
+              return RefreshIndicator(
+                onRefresh: (){
+                  _weatherBloc.dispatch(RefreshWeather(city: state.weather.location));
+                  return _refreshCompleter.future;
+                },
+                child: ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 100),
+                      child: Center(
+                        child: Location(location: weather.location),
                       ),
                     ),
-                  )
-                ],
+                    Center(
+                      child: LastUpdated(dateTime: weather.lastUpdated),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 50.0),
+                      child: Center(
+                        child: CombinedWeatherTemperature(
+                          weather: weather,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               );
             }
             if (state is WeatherError) {
