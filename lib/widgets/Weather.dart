@@ -50,7 +50,7 @@ class _WeatherState extends State<Weather> {
                     ),
                   );
                   if (city != null) {
-                    _weatherBloc.dispatch(FetchWeather(city: city));
+                    _weatherBloc.dispatch(FetchWeather(city: '$city'));
                   }
                 })
           ]),
