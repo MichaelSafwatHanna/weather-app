@@ -3,13 +3,14 @@ import 'package:flutter/widgets.dart';
 
 class CitySelection extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _CitySelectionState();
+  State<CitySelection> createState() => _CitySelectionState();
 }
 
 class _CitySelectionState extends State<CitySelection> {
 
-  final TextEditingController _textEditingController =
-      new TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,18 +24,24 @@ class _CitySelectionState extends State<CitySelection> {
                 child: TextFormField(
                   controller: _textEditingController,
                   decoration:
-                      InputDecoration(labelText: 'City', hintText: 'Hogwarts'),
+                      InputDecoration(labelText: 'City'),
                 ),
               ),
             ),
             IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
-                  Navigator.pop(context, _textEditingController);
+                  Navigator.pop(context, _textEditingController.text);
                 })
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
   }
 }
